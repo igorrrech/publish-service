@@ -1,0 +1,14 @@
+{
+    "app":{
+        "enviroment":"dev"
+    },
+    "log":{
+
+    },
+    "server":{
+        "port":"8080",
+        "host":"0.0.0.0",
+        "shutdown_timeout":5000000000,
+        "operation_timeout":2000000000
+    }
+}

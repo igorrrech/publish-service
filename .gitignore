@@ -1,0 +1,10 @@
+.env
+/log/
+log
+*.log
+log.*
+main
+main.*
+!main.go
+secret
+secret*
