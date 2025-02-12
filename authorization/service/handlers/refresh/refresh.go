@@ -23,6 +23,7 @@ type TokenMaker interface {
 	GetAccessByRefresh(refresh models.RefreshToken) (*models.TokenPair, error)
 }
 
+// ручка для выдачи access токена по refresh
 func Refresh(
 	accessTTL time.Duration,
 	refreshTTL time.Duration,

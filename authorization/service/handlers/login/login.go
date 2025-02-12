@@ -27,6 +27,7 @@ type TokenMaker interface {
 	MakeTokenPair(u models.User) (models.TokenPair, error)
 }
 
+// ручка для авторизации пользователя по логину
 func Login(
 	accessTTL time.Duration,
 	refreshTTL time.Duration,

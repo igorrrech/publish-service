@@ -17,7 +17,6 @@ const (
 	PROD
 )
 
-// для красивого вывода в консоль begin
 type PrettyHandlerOptions struct {
 	SlogOpts slog.HandlerOptions
 }
@@ -72,15 +71,13 @@ func NewPrettyHandler(
 
 	return h
 }
-
-// для красивого вывода в консоль end
 func SetupLogger(
 	appEnv int,
 	filepath string,
 ) *slog.Logger {
 	var logger *slog.Logger
 	logger = slog.Default()
-	if appEnv == DEV { //читаемый вывод на стадии разработки
+	if appEnv == DEV {
 		opts := PrettyHandlerOptions{
 			SlogOpts: slog.HandlerOptions{
 				Level: slog.LevelDebug,

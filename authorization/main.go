@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"log"
 	"log/slog"
 	"net"
 
@@ -10,14 +9,8 @@ import (
 	l "github.com/igorrrech/publish-service/authorization/pkg/logger"
 	"github.com/igorrrech/publish-service/authorization/repo"
 	"github.com/igorrrech/publish-service/authorization/service"
-	"github.com/joho/godotenv"
 )
 
-func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
-	}
-}
 func main() {
 	cfg := config.MustLoadConfig("./config.json")
 

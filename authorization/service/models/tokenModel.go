@@ -16,7 +16,7 @@ type TokenPair struct {
 }
 type AccessClaims struct {
 	UUID uint   `json:"uuid"`
-	Role string `json:"rol,omitempty"`
+	Role string `json:"rol"`
 	jwt.RegisteredClaims
 }
 type RefreshClaims struct {
@@ -54,14 +54,14 @@ func (t AccesToken) VerifyToken(claims AccessClaims, secret string) (*jwt.Token,
 		return []byte(secret), nil
 	})
 
-	// Check for verification errors
-	if err != nil {
-		return nil, err
-	}
-
 	// Check if the token is valid
 	if !token.Valid {
-		return nil, fmt.Errorf("invalid token")
+		return token, fmt.Errorf("invalid token")
+	}
+
+	// Check for verification errors
+	if err != nil {
+		return token, err
 	}
 
 	// Return the verified token

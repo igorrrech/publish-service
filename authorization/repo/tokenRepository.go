@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
 	models "github.com/igorrrech/publish-service/authorization/service/models"
 )
 
+// репозиторий для хранения и выдачи токенов авторизации
 type TokenRepository struct {
 	mx        sync.RWMutex
 	cache     map[uint]*models.TokenPair
@@ -36,16 +36,14 @@ func (r TokenRepository) GetAccessByRefresh(refresh models.RefreshToken) (*model
 	if !ok {
 		return nil, fmt.Errorf("refresh claims error")
 	}
+	//для защиты ри записи во время конкурентного выполнения
 	r.mx.RLock()
 	pair := r.cache[r_claims.UUID]
 	r.mx.RUnlock()
 	if pair == nil {
 		return nil, fmt.Errorf("no such user")
 	}
-	a_token, err := models.AccesToken(pair.Access).VerifyToken(models.AccessClaims{}, r.secret)
-	if (err != nil) && (err != jwt.ErrTokenExpired) {
-		return nil, errors.Join(fmt.Errorf("access verify error:"), err)
-	}
+	a_token, _ := models.AccesToken(pair.Access).VerifyToken(models.AccessClaims{}, r.secret)
 	a_claims, ok := a_token.Claims.(*models.AccessClaims)
 	if !ok {
 		return nil, fmt.Errorf("access claims error")
@@ -59,9 +57,10 @@ func (r TokenRepository) GetAccessByRefresh(refresh models.RefreshToken) (*model
 	if err != nil {
 		return nil, err
 	}
+	//полный лок на время записи
 	r.mx.Lock()
-	defer r.mx.Unlock()
 	r.cache[a_claims.UUID] = &newPair
+	r.mx.Unlock()
 	return &newPair, nil
 }
 func (r TokenRepository) MakeTokenPair(u models.User) (models.TokenPair, error) {

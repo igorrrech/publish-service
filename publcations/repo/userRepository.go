@@ -49,8 +49,6 @@ func (r UserRepository) GetUserByPhone(phone string) (*models.User, error) {
 	err := r.db.Model(models.User{Phone: phone}).WithContext(ctx).First(&result).Error
 	return &result, err
 }
-
-// не используется
 func (r UserRepository) CreateUser(u *models.User) error {
 	if err := u.Validate(); err != nil {
 		return err

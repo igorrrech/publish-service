@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// пользолватель и его права
 type User struct {
 	gorm.Model
 	Phone    string `gorm:"unique;index"`

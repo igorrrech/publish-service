@@ -8,8 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// была задумка сделать таймаут для инициализации и несклько ретраев
-// но горм с этим и сам прекрасно справляется
 func ConnectToDbPg(ctx context.Context, pgDsn string, timeout time.Duration) (db *gorm.DB, err error) {
 	dsn := pgDsn
 	//ctx, cancel := context.WithTimeout(ctx, timeout)

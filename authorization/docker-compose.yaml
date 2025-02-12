@@ -2,31 +2,39 @@ version: "3.8"
 
 services:
 
-  postgres:
-    container_name: postgres
+  auth-db:
+    container_name: auth-pg
     image: postgres
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - auth-pg-data:/var/lib/postgresql/data
     env_file:
       - .env
     ports:
-      - "5432:5432"
+      - "5431:5432"
     restart: unless-stopped
-
+    networks:
+      - auth-backend
   app:
-    container_name: app
+    container_name: auth-app
     build: .
+    links:
+      - "auth-db:database"
     volumes:
       - ./logs:/logs
       - ./secrets:/secrets
     env_file:
       - .env
     ports:
-      - "5431:5432"
       - "8080:8080"
     depends_on:
-      - postgres
+      - auth-db
     restart: unless-stopped
-
+    networks:
+      - auth-backend
 volumes:
-  pg-data:
+  auth-pg-data:
+networks:
+  auth-backend:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"

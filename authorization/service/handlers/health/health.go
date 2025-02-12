@@ -10,6 +10,7 @@ const (
 	URL = "health"
 )
 
+// ручка для проверки жизнеспособности
 func Health() gin.HandlerFunc {
 	OkMessage := "server is alive"
 	return func(c *gin.Context) {
