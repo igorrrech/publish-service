@@ -1,0 +1,14 @@
+{
+    "log":{
+        "logfile-path":"./log/log.json"
+    },
+    "server":{
+        "host":"localhost",
+        "port":"8080",
+        "shutdown-timeout":"5000000000",
+        "operation-timeout":"2000000000"
+    },
+    "jwt":{
+        "auth-route":""
+    }
+}
